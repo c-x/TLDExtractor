@@ -1,0 +1,72 @@
+/*
+Put your licence disclaimer here.
+
+Author : Cedric LE ROUX <cedric.lrx@gmail.com>
+*/
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/* Return a list of TLD from the static list provided.
+ * This file must be generated from python's code (tld updater).
+ * Convert 'char *[]' array to 'char **'
+ */
+int initializeTLDArray(char ***array, int *nbTLD)
+{
+	int i;
+        //char *TLD[5] = { ".com", ".co.uk", ".co.za", ".ru", ".vn" };
+        //*nbTLD = 5;
+	%TLD_PYTHON_GENERATED_LIST%
+
+	if( *array != NULL )
+		return EXIT_FAILURE;
+
+	*array = calloc(*nbTLD, sizeof(char *));
+	if( *array == NULL )
+		return EXIT_FAILURE;
+
+	for(i=0; i<*nbTLD; i++)
+	{
+		(*array)[i] = calloc(strlen(TLD[i])+1, sizeof(char));
+		if( (*array)[i] == NULL )
+			return EXIT_FAILURE;
+		strncpy((*array)[i], TLD[i], strlen(TLD[i]));
+	}
+
+	return EXIT_SUCCESS;
+}
+
+void releaseTLDArray(char ***array, int nbTLD)
+{
+	int i;
+	for(i=0; i<nbTLD; i++)
+		free((*array)[i]);
+	free(**array);
+}
+
+/*
+// Sample usage
+int main(void)
+{
+	char **TLDList = NULL;
+	int nbTLD;
+	int ret;
+
+	ret = initializeTLDArray(&TLDList, &nbTLD);
+	if( ret == EXIT_FAILURE ) {
+		printf("Oops ! Something went wrong, call 911.\n");
+		return EXIT_FAILURE;
+	}
+
+	printf("NB TLD = %d\n", nbTLD);
+
+	printf("=> %s \n", TLDList[0]);
+	printf("=> %s \n", TLDList[1]);
+	printf("=> %s \n", TLDList[2]);
+	printf("=> %s \n", TLDList[3]);
+
+	releaseTLDArray(&TLDList, nbTLD);
+
+	return 1;
+}
+*/

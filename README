@@ -1,0 +1,60 @@
+********
+* MAIN *
+********
+
+This C lib was created to identify TLDs, including more than one level ones, in a fast way.
+
+The library is supposed to be compiled with an embeded list of known TLDs. To make this list, you can :
+A/ Use the provided one (tldlist.c), 
+or
+B/ Update/create yours (with the python code provided).
+
+The list is a compilation of IANA and MOZILLA PUBLIC SUFFIX lists.
+
+
+************
+* EXAMPLES *
+************
+	www.google.com        -> com
+	www.google.co.uk      -> co.uk
+	www.google.dyndns.org -> dyndns.org
+	pouete.blogspot.co.uk -> blogspot.co.uk
+	a.com                 -> com
+	.com                  -> com
+	com                   -> com
+	www.erer              -> NOT FOUND
+	www.siemens.om        -> om
+	www.toto.om           -> toto.om
+	aaa.paragliding.aero  -> paragliding.aero
+	falseparagliding.aero -> aero
+
+	www.lions.nakahara.kawasaki.jp -> nakahara.kawasaki.jp
+	wonderful.city.kawasaki.jp     -> kawasaki.jp (yes, city is an exception)
+
+
+****************
+* INSTALLATION *
+****************
+
+Updating the list
+
+	If you want to update the list, go to the generator directory an run the python script. 
+	This will produce a 'tldlist.c' file. Move, or copy, that file into the source folder.
+
+	# cd generator
+	# python generate-headers.py
+	# mv tldlist.c ../src/
+	
+Compiling the lib
+
+	Well, the library is a proof of concept that can be easly integrated into your developments.
+	However, a sample program (main.c) is provided for education (-:
+
+	Just compile it with the "make" command.
+
+***********
+* LICENCE *
+***********
+Send me cookies or beers and it's OK, that's free for reuse.
+
+
