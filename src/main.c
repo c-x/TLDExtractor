@@ -17,7 +17,7 @@ Author : Cedric LE ROUX <cedric.lrx@gmail.com>
 
 int main(int argc, char **argv)
 {
-	TLDNode *Tree = NULL; // Set it to NULL at startup or it will not work :)
+	TLDNode *Tree;
 	int ret, i;
 
 	int NB_HOSTS = 14;
@@ -40,8 +40,8 @@ int main(int argc, char **argv)
 
 	printf("\n\n");
 
-	ret = initializeTLDTree(&Tree);
-	if( ret == EXIT_FAILURE ) {
+	Tree = initializeTLDTree();
+	if( Tree == NULL ) {
 		printf("Oops! Something went wrong. Call 911.\n");
 		return EXIT_FAILURE;
 	}
@@ -54,19 +54,6 @@ int main(int argc, char **argv)
 
 	printf("\n\n");
 
-	/*
-	// Chargement d'un fichier plat contenant 1 domaine par ligne
-	FILE *fp;
-	char *buff = calloc(1024, sizeof(char));
-	fp = fopen("domains-uniq.log", "r");
-	while( fgets(buff, 1024, fp) )
-	{
-		buff[strlen(buff)-1] = '\0';
-		ret = get_tld_pos(Tree, buff);
-		printf("%s : %s\n", buff, (ret == -1) ? "NOT FOUND" : (buff+ret));
-	}
-	fclose(fp);
-	*/
 	return EXIT_SUCCESS;
 }
 

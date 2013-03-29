@@ -659,10 +659,7 @@ int initializeTLDArray(char ***array, int *nbTLD)
 	};
 	*nbTLD  = 6382;
 
-
-	if( *array != NULL )
-		return EXIT_FAILURE;
-
+	// convert to dynamicaly allocated array
 	*array = calloc(*nbTLD, sizeof(char *));
 	if( *array == NULL )
 		return EXIT_FAILURE;
@@ -690,7 +687,7 @@ void releaseTLDArray(char ***array, int nbTLD)
 // Sample usage
 int main(void)
 {
-	char **TLDList = NULL;
+	char **TLDList;
 	int nbTLD;
 	int ret;
 

@@ -15,7 +15,7 @@ typedef struct TLDNode {
 	struct TLDNode *kid;  
 } TLDNode;
 
-int initializeTLDTree(TLDNode **);
+TLDNode * initializeTLDTree(void);
 int get_tld_pos(TLDNode *, char *);
 
 #endif

@@ -141,7 +141,7 @@ int TreeAddNode(TLDNode **Tree, char *TLD, int tLen)
 
 
 
-/* void initializeTLDTree
+/* Return a TLD Tree (TLDNode *) or NULL on error
  *
  * Load TLD from a char array and transform it as a 'reversed' Tree (= Trie).
  * Ex: '.com' is loaded as 'm->o->c->.'
@@ -155,35 +155,35 @@ int TreeAddNode(TLDNode **Tree, char *TLD, int tLen)
  * - http://en.wikipedia.org/wiki/Suffix_tree
  */
 
-int initializeTLDTree(TLDNode **Tree)
+TLDNode * initializeTLDTree(void)
 {
-	char **TLDArray = NULL; // Set it to NULL or it will not work
+	TLDNode *Tree;
+	char **TLDArray; 
 	int nbTLD, ret, i;
 
-	if( *Tree != NULL )
-		return EXIT_FAILURE;
-
 	// Initialize the tree
-	*Tree = calloc(1,sizeof(TLDNode));
-	if( *Tree == NULL )
-		return EXIT_FAILURE;
-	(*Tree)->c = '\0'; 
+	Tree = calloc(1, sizeof(TLDNode));
+	if( Tree == NULL )
+		return NULL;
+	Tree->c = '\0'; 
 
 	// Load the raw TLD array
 	ret = initializeTLDArray(&TLDArray, &nbTLD);
 	if( ret != EXIT_SUCCESS )
-		return EXIT_FAILURE;
+		return NULL;
 
 	for(i=0; i<nbTLD; i++)
 	{
-		ret = TreeAddNode(Tree, TLDArray[i], strlen(TLDArray[i]));
+		ret = TreeAddNode(&Tree, TLDArray[i], strlen(TLDArray[i]));
 
 		if( ret != EXIT_SUCCESS )
-			return EXIT_FAILURE;
+			return NULL;
 	}
-	return EXIT_SUCCESS;
+
+	releaseTLDArray(&TLDArray, nbTLD);
+	return Tree;
 }
-		
+
 
 /*
  * Return TRUE if the provided tld is found in the provided Tree.
